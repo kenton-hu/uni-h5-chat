@@ -39,6 +39,7 @@ import {pstore} from "./pstore";
 import {imageThumbnail, videoDuration, videoThumbnail} from "./pages/util/imageUtil";
 import avenginekitproxy from "./wfc/av/engine/avenginekitproxy";
 import ModifyGroupSettingNotification from "./wfc/messages/notification/modifyGroupSettingNotification";
+import appServerApi from "./api/appServerApi";
 
 /**
  * 一些说明
@@ -1613,6 +1614,37 @@ let store = {
                 searchState.userSearchResult = [];
             }
         });
+        
+        // app-server搜索扩展
+    		appServerApi.searchAbcUserList(query)
+    			.then(response => {
+    				console.log(response)
+    				if (response !== '') {
+    					// 转换成json
+    					let result = response
+    					console.log("result", result)
+    					if (result.code === 0 && '' !== result.result) {
+    						result.result.filter(u => {
+    							let userInfo = JSON.parse(u);
+    							console.log("userInfo", userInfo)
+    							let flag = !wfc.isMyFriend(userInfo.uid)
+    							if (flag) {
+    								resultArray.push(userInfo)
+    							}
+    							return !flag
+    						})
+    						searchState.userSearchResult = resultArray
+
+    						console.log("searchState.userSearchResult", searchState.userSearchResult)
+    					}
+    				}
+    			})
+    			.catch(err => {
+    				console.log('search abc user error', query, err)
+    				// searchState.userSearchResult = resultArray
+    			})
+    			console.log("resultArray", resultArray)
+
     },
 
     searchChannel(query) {

@@ -1,12 +1,17 @@
-import Config from "../config";
-import FavItem from "../wfc/model/favItem";
-import {stringValue} from "../wfc/util/longUtil";
-import AppServerError from "./appServerError";
-import wfc from "../wfc/client/wfc";
-import {getItem, setItem} from "../pages/util/storageHelper";
+import Config from '../config';
+import FavItem from '../wfc/model/favItem';
+import { stringValue } from '../wfc/util/longUtil';
+import AppServerError from './appServerError';
+import wfc from '../wfc/client/wfc';
+import { getItem, setItem } from '../pages/util/storageHelper';
+import { v4 as uuidv4 } from 'uuid';
 
 export class AppServerApi {
     constructor() {
+    }
+
+	searchAbcUserList(username) {
+        return this._post(`/user/abc/search?username=${username}`, {}, false, true);
     }
 
     requestAuthCode(mobile) {
@@ -26,16 +31,45 @@ export class AppServerApi {
     }
 
     loginWithAuthCode(mobile, authCode) {
+		let clientId = localStorage.getItem('clientId');
+		console.log('loginWithAuthCode clientId', clientId);
+		if (clientId === undefined || clientId === '') {
+			console.log('loginWithAuthCode getClientId', clientId);
+			clientId = wfc.getClientId();
+			console.log('loginWithAuthCode getClientId', clientId);
+		}
         return new Promise((resolve, reject) => {
             let responsePromise = this._post('/login', {
                 mobile,
                 code: authCode,
-                platform: Config.getWFCPlatform(),
-                clientId: wfc.getClientId()
+                platform: 5,
+                // clientId: wfc.getClientId(),
+				clientId,
             }, true);
-            this._interceptLoginResponse(responsePromise, resolve, reject)
-        })
+            this._interceptLoginResponse(responsePromise, resolve, reject);
+        });
     }
+
+	getToken(name, userId, displayname) {
+		console.log('getToken', name, userId, displayname);
+		let clientId = localStorage.getItem('clientId');
+		console.log('loginWithAuthCode clientId', clientId);
+		if (clientId === undefined || clientId === '') {
+			console.log('loginWithAuthCode getClientId', clientId);
+			clientId = wfc.getClientId();
+			console.log('loginWithAuthCode getClientId', clientId);
+		}
+	    return new Promise((resolve, reject) => {
+	        const responsePromise = this._post('/user/token/get', {
+	            userName: name,
+	            userId,
+				clientId,
+				displayName: displayname,
+				platform: 5,
+	        }, true);
+	        this._interceptLoginResponse(responsePromise, resolve, reject);
+	    });
+	}
 
 
     changePassword(oldPassword, newPassword) {

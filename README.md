@@ -1,4 +1,4 @@
-# 野火IM 手机Web平台Demo
+# OK 手机Web平台Demo
 
 支持Android 和 iOS 手机浏览器，支持微信浏览器
 

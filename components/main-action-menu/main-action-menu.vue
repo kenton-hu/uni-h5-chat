@@ -15,12 +15,12 @@
                     </view>
                     <view class="text">添加朋友</view>
                 </view>
-                <view class="menu-item" @click="go2ScanQrCode">
+               <!-- <view class="menu-item" @click="go2ScanQrCode">
                     <view class="menu-item-icon">
                         <view class="wxfont qr_code"></view>
                     </view>
                     <view class="text">扫一扫</view>
-                </view>
+                </view> -->
             </view>
         </view>
         <view class="main-action-menu-background-model"></view>

@@ -4,12 +4,12 @@
             <image class="portrait" :src="user.portrait"></image>
             <text class="name">{{ user.displayName }}</text>
         </div>
-        <div class="about" @click="showAbout">
+        <!-- <div class="about" @click="showAbout">
             <text>关于</text>
-        </div>
-        <div class="about" @click="showApiTest">
+        </div> -->
+    <!--    <div class="about" @click="showApiTest">
             <text>API测试</text>
-        </div>
+        </div>-->
         <div class="info">
             <text>
                 {{ info }}

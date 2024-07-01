@@ -1,12 +1,14 @@
 <script>
 import store from "./store";
-import {getItem} from "./pages/util/storageHelper";
+import {getItem, setItem} from "./pages/util/storageHelper";
 import wfc from "./wfc/client/wfc";
 import conferenceManager from "./pages/voip/conference/conferenceManager";
 import ConferenceInviteMessageContent from "./wfc/av/messages/conferenceInviteMessageContent";
 import Message from "./wfc/messages/message";
 import ForwardType from "./pages/conversation/message/forward/ForwardType";
 import ConnectionStatus from "./wfc/client/connectionStatus";
+import { v4 as uuidv4 } from 'uuid';
+import appServerApi from './api/appServerApi';
 
 export default {
     data() {
@@ -34,6 +36,18 @@ export default {
     onShow: function () {
         console.log("App Show");
         store.state.misc.isAppHidden = false;
+		
+		let source = localStorage.getItem("source")
+		console.log("source", source)
+		if (source == 1) {
+			let displayname = localStorage.getItem("displayname")
+			let name1 = localStorage.getItem("name")
+			let userId1 = localStorage.getItem("userId")
+			
+			getToken(name1, userId1,displayname)
+		} 
+		
+		
         // #ifdef H5
         let userId = getItem('userId');
         let token = getItem('token')
@@ -88,6 +102,33 @@ export default {
         },
     }
 }
+
+async function getToken(name, userId, displayname) {
+	const result = await appServerApi.getToken(name, userId, displayname);
+	console.log('login result', result);
+	const resultUserId = result.userId;
+	const token = result.token;
+	wfc.connect(resultUserId, token);
+	setItem('userId', resultUserId);
+	setItem('token', token);
+	go2ConversationList();
+}
+
+function go2ConversationList() {
+	uni.switchTab({
+		url: '/pages/conversationList/ConversationListPage',
+		success: () => {
+			console.log('to conversation list success');
+		},
+		fail: (e) => {
+			console.log('to conversation list error', e);
+		},
+		complete: () => {
+			console.log('switch tab complete');
+		},
+	});
+}
+
 </script>
 
 <style lang="css">

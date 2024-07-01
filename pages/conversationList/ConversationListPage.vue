@@ -24,7 +24,7 @@ import ConversationItemView from "./ConversationItemView";
 import store from "../../store";
 import wfc from "../../wfc/client/wfc";
 import ConnectionStatus from "../../wfc/client/connectionStatus";
-import {getItem} from "../util/storageHelper";
+import {getItem, setItem, removeItem} from "/pages/util/storageHelper";
 import organizationServerApi from "../../api/organizationServerApi";
 
 export default {
@@ -67,10 +67,17 @@ export default {
     onNavigationBarButtonTap(e) {
         console.log('onNavigationBarButtonTap')
         switch (e.index) {
-            case 0:
+			case 0:
+			    // this.$refs.mainActionMenu.hide();
+				localStorage.clear()
+				removeItem("userId")
+				removeItem("token")
+				window.open("about:blank", "_top").close();
+			    break;
+            case 1:
                 this.$refs.mainActionMenu.toggle();
                 break;
-            case 1:
+            case 2:
                 this.$refs.mainActionMenu.hide();
                 uni.navigateTo({
                     url: '/pages/search/SearchPortalPage'

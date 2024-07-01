@@ -14,7 +14,7 @@ export default class RichNotificationMessageContent extends NotificationMessageC
     desc;
     remark;
 
-    // @[@{@"key":@"登陆账户", @"value":@"野火IM", @"color":@"#173155"}, @{@"key":@"登陆地点", @"value":@"北京", @"color":@"#173155"}]
+    // @[@{@"key":@"登陆账户", @"value":@"OK", @"color":@"#173155"}, @{@"key":@"登陆地点", @"value":@"北京", @"color":@"#173155"}]
     datas;
 
     // 附加信息

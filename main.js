@@ -7,12 +7,14 @@ import picker from "./common/picker";
 import wfc from "./wfc/client/wfc";
 import forward from "./common/forward";
 // web端
-import avengineKit from "./wfc/av/internal/engine.min";
-import {getItem} from "./pages/util/storageHelper";
-import zhCNLang from './assets/lang/zh-CN.json'
-import zhTWLang from './assets/lang/zh-TW.json'
-import enLang from './assets/lang/en.json'
-import mitt from "mitt";
+import avengineKit from './wfc/av/internal/engine.min';
+import { getItem, setItem } from './pages/util/storageHelper';
+import zhCNLang from './assets/lang/zh-CN.json';
+import zhTWLang from './assets/lang/zh-TW.json';
+import enLang from './assets/lang/en.json';
+import mitt from 'mitt';
+import { v4 as uuidv4 } from 'uuid';
+import appServerApi from './api/appServerApi';
 
 import VConsole from 'vconsole';
 
@@ -124,8 +126,61 @@ avengineKit.setup();
 // }
 store.init();
 
+storeRequest();
+
 export function createApp() {
     return {
-        app
-    }
+        app,
+    };
+}
+
+/**
+ * 存储clientId
+ */
+function storeRequest() {
+	const clientIdS = localStorage.getItem('clientId');
+	console.log('storeClientId clientId', clientIdS);
+	console.log('main.js', 'init clientId');
+
+	const source = getQueryString('source');
+	console.log('getQueryString source', typeof (source));
+	const name = getQueryString('name');
+	console.log('getQueryString name', typeof (name));
+	const displayname = getQueryString('displayname');
+	console.log('getQueryString displayname', typeof (displayname));
+	const userId = getQueryString('userId');
+	console.log('getQueryString userId', typeof (userId));
+
+	if ((source !== undefined && source === '1') &&
+		(name !== undefined && name !== '') &&
+		(userId !== undefined && userId !== '')) {
+		console.log('storeClientId', 'work');
+
+		localStorage.setItem('source', source);
+		localStorage.setItem('name', name);
+		if (displayname === undefined || displayname === '') {
+			localStorage.setItem('displayname', name);
+		} else {
+			localStorage.setItem('displayname', displayname);
+		}
+		localStorage.setItem('userId', userId);
+
+
+		const clientId = uuidv4();
+		console.log('main.js', clientId);
+		localStorage.setItem('clientId', clientId);
+
+		// getToken(name, userId);
+	}
+}
+
+/**
+ * 获取url中的参数
+ * @param {Object} name 参数名
+ */
+function getQueryString(name) {
+	const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`, 'i');
+	const search = window.location.search.split('?')[1] || '';
+	const r = search.match(reg) || [];
+	return r[2];
 }

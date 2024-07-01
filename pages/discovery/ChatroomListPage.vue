@@ -1,13 +1,13 @@
 <template>
     <div class="chatroom-container">
         <div class="item" @click="go2Chatroom(1)">
-            <text>野火聊天室1</text>
+            <text>OK聊天室1</text>
         </div>
         <div class="item" @click="go2Chatroom(2)">
-            <text>野火聊天室1</text>
+            <text>OK聊天室1</text>
         </div>
         <div class="item" @click="go2Chatroom(3)">
-            <text>野火聊天室2</text>
+            <text>OK聊天室2</text>
         </div>
     </div>
 

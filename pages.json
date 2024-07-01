@@ -24,6 +24,12 @@
                 "app-plus": {
                     "titleNView": {
                         "buttons": [
+							{
+								"text": "返回",
+								// "fontSrc": "/static/iconfonts/wx_iconfont.ttf",
+								"fontSize": "16px",
+								"float": "left"
+							},
                             {
                                 "text": "\ue657",
                                 "fontSrc": "/static/iconfonts/wx_iconfont.ttf",

@@ -20,11 +20,11 @@
             <text>会议</text>
             <i class="icon-ion-ios-arrow-right"></i>
         </div>
-        <div class="item" @click="showDevGuide">
+        <!-- <div class="item" @click="showDevGuide">
             <image src="/static/image/icon/ic_dev_docs.png"/>
             <text>开发手册</text>
             <i class="icon-ion-ios-arrow-right"></i>
-        </div>
+        </div> -->
     </div>
 
 </template>

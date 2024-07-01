@@ -24,6 +24,7 @@
     "segmentit": "^2.0.3",
     "twemoji": "^14.0.2",
     "universal-emoji-parser": "^0.5.28",
+    "uuid": "^9.0.1",
     "vue": "^3.2.8",
     "vue-i18n": "^9.9.1"
   },

@@ -18,6 +18,7 @@
 import UserListView from "../user/UserListView.vue";
 import wfc from "../../wfc/client/wfc";
 import SearchType from "../../wfc/model/searchType";
+import appServerApi from "../../api/appServerApi";
 
 export default {
     name: "SearchUserPage",
@@ -41,6 +42,34 @@ export default {
             }, err => {
                 console.log(' searchUser err', err)
             });
+			// app-server搜索扩展
+			appServerApi.searchAbcUserList(this.keyword)
+				.then(response => {
+					console.log(response)
+					if (response !== '') {
+						// 转换成json
+						let result = response
+						console.log("result", result)
+						if (result.code === 0 && '' !== result.result) {
+							result.result.filter(u => {
+								let userInfo = JSON.parse(u);
+								console.log("userInfo", userInfo)
+								let flag = !wfc.isMyFriend(userInfo.uid)
+								if (flag) {
+									this.users.push(userInfo)
+								}
+								return !flag
+							})
+							// searchState.userSearchResult = resultArray
+			
+							// console.log("searchState.userSearchResult", searchState.userSearchResult)
+						}
+					}
+				})
+				.catch(err => {
+					console.log('search abc user error', this.keyword, err)
+					// searchState.userSearchResult = resultArray
+				})
         }
     }
 }
