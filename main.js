@@ -16,9 +16,9 @@ import mitt from 'mitt';
 import { v4 as uuidv4 } from 'uuid';
 import appServerApi from './api/appServerApi';
 
-import VConsole from 'vconsole';
+// import VConsole from 'vconsole';
 
-const vConsole = new VConsole();
+// const vConsole = new VConsole();
 
 const app = createSSRApp(App)
 

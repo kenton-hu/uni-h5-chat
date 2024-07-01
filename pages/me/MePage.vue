@@ -10,11 +10,11 @@
     <!--    <div class="about" @click="showApiTest">
             <text>API测试</text>
         </div>-->
-        <div class="info">
+        <!-- <div class="info">
             <text>
                 {{ info }}
             </text>
-        </div>
+        </div> -->
         <button class="logout-button" @click="logout">退出登录</button>
     </div>
 
